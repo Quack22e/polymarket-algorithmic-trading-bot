@@ -14,7 +14,7 @@ import httpx
 import websockets
 
 
-# PATHS ────────────────────────────────────────────────────────────────────
+# Paths
 
 BASE_DIR = Path(".")
 BOT_LOG_PATH = BASE_DIR / "bot.log"
@@ -23,7 +23,7 @@ LIVE_ACCURACY_PATH = BASE_DIR / "live_accuracy.json"
 META_FILTER_PATH = BASE_DIR / "meta_filter.json"
 
 
-# CONFIG ───────────────────────────────────────────────────────────────────
+# Config
 
 CONFIG = {
     "BUY_THRESHOLD": 0.75,
@@ -94,7 +94,7 @@ ASSETS = {
 }
 
 
-# LOGGING ──────────────────────────────────────────────────────────────────
+# Logging
 
 logging.basicConfig(
     level=logging.INFO,
@@ -108,7 +108,7 @@ logging.basicConfig(
 log = logging.getLogger("bot")
 
 
-# UTILS ────────────────────────────────────────────────────────────────────
+# Utils
 
 
 def utc_now() -> datetime:
@@ -160,7 +160,7 @@ def confidence_label(confidence: float) -> str:
     return "60-70%"
 
 
-# META FILTER ──────────────────────────────────────────────────────────────
+# Meta Filter
 
 META_FILTER: dict = {}
 SKIP_CONFIDENCE_TIERS: list[str] = []
@@ -254,7 +254,7 @@ def meta_size_multiplier(score: float) -> float:
     return max(0.5, min(1.5, mult))
 
 
-# MARKET DISCOVERY ─────────────────────────────────────────────────────────
+# Market Discovery
 
 async def fetch_market(slug_prefix: str) -> Optional[dict]:
     """Find the active Polymarket 5-minute market for a given asset."""
@@ -306,7 +306,7 @@ async def fetch_market(slug_prefix: str) -> Optional[dict]:
     return None
 
 
-# POSITION SIZING ──────────────────────────────────────────────────────────
+# Position Sizing
 
 
 def get_position_size(
@@ -355,7 +355,7 @@ def get_position_size(
     return max(150, min(final, 1500))
 
 
-# DATA MODELS ──────────────────────────────────────────────────────────────
+# Data Models
 
 @dataclass
 class AssetState:
@@ -417,7 +417,7 @@ class Position:
         return (self.entry_price - price) / self.entry_price
 
 
-# PAPER TRADER ─────────────────────────────────────────────────────────────
+# Paper Trader
 
 class PaperTrader:
     def __init__(self):
@@ -621,7 +621,7 @@ class PaperTrader:
         return "\n".join(lines) if len(lines) > 1 else ""
 
 
-# TREND FILTER ─────────────────────────────────────────────────────────────
+# Trend Filter
 
 class TrendFilter:
     def __init__(self):
@@ -680,7 +680,7 @@ class TrendFilter:
 TREND = TrendFilter()
 
 
-# CHOP FILTER ──────────────────────────────────────────────────────────────
+# Chop Filter
 
 class ChopFilter:
     def __init__(self):
@@ -745,7 +745,7 @@ class ChopFilter:
 CHOP = ChopFilter()
 
 
-# VOLATILITY GATE ──────────────────────────────────────────────────────────
+# Volatility Gate
 
 class VolatilityFilter:
     def __init__(self):
@@ -786,7 +786,7 @@ class VolatilityFilter:
 VOL = VolatilityFilter()
 
 
-# SIGNAL ENGINE ────────────────────────────────────────────────────────────
+# Signal Engine
 
 class SignalEngine:
     def __init__(self, trader: PaperTrader, states: dict[str, AssetState]):
@@ -911,7 +911,7 @@ class SignalEngine:
         state.last_signal_dir = direction
 
 
-# PRICE FEEDS ──────────────────────────────────────────────────────────────
+# Price Feeds
 
 async def kraken_feed(states: dict[str, AssetState]) -> None:
     symbols = [info["kraken_symbol"] for info in ASSETS.values()]
@@ -1034,7 +1034,7 @@ async def asset_feed(symbol: str, state: AssetState, trader: PaperTrader) -> Non
             await asyncio.sleep(wait + 3)
 
 
-# LOOPS ────────────────────────────────────────────────────────────────────
+# Loops
 
 async def signal_loop(states: dict[str, AssetState], engine: SignalEngine) -> None:
     while True:
@@ -1129,7 +1129,7 @@ async def log_saver(trader: PaperTrader) -> None:
         save_json_file(LIVE_ACCURACY_PATH, live_summary)
 
 
-# MAIN ─────────────────────────────────────────────────────────────────────
+# Main
 
 async def main() -> None:
     load_meta_filter()
