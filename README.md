@@ -96,7 +96,7 @@ If a `meta_filter.json` file is present (generated from historical trade data), 
 ## Project Structure
 
 ```
-├── bot_a.py                  # Main entry point — all logic in one file
+├── bot_a.py                # Main entry point — all logic in one file
 ├── trades.json             # Persistent trade log (auto-generated)
 ├── live_accuracy.json      # Running accuracy by hour, DOW, confidence tier
 ├── meta_filter.json        # Optional: historical performance overlays
