@@ -96,7 +96,7 @@ If a `meta_filter.json` file is present (generated from historical trade data), 
 ## Project Structure
 
 ```
-├── bot.py                  # Main entry point — all logic in one file
+├── bot_a.py                  # Main entry point — all logic in one file
 ├── trades.json             # Persistent trade log (auto-generated)
 ├── live_accuracy.json      # Running accuracy by hour, DOW, confidence tier
 ├── meta_filter.json        # Optional: historical performance overlays
@@ -109,7 +109,7 @@ If a `meta_filter.json` file is present (generated from historical trade data), 
 
 ```bash
 pip install httpx websockets
-python bot.py
+python bot_a.py
 ```
 
 No API keys required. The bot reads public Polymarket and Kraken WebSocket feeds.
@@ -118,7 +118,7 @@ No API keys required. The bot reads public Polymarket and Kraken WebSocket feeds
 
 ## Configuration
 
-All parameters are in the `CONFIG` dict at the top of `bot.py`. Key settings:
+All parameters are in the `CONFIG` dict at the top of `bot_a.py`. Key settings:
 
 | Parameter | Default | Description |
 |---|---|---|
